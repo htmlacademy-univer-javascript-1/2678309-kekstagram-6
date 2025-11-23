@@ -36,3 +36,7 @@ function extractNumber(string) {
 
   return parseInt(digitsString, 10);
 }
+
+checkStringLength('hello', 10);
+isPalindrome('топот');
+extractNumber('1234567890');
