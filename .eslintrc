@@ -16,7 +16,12 @@
   },
   "rules": {
     "quotes": [1, "single"],
-    "no-unused-vars": "warn",
+    "no-unused-vars": ["warn", {
+      "vars": "all",
+      "args": "after-used",
+      "ignoreRestSiblings": true,
+      "varsIgnorePattern": "^_|^photos$"
+    }],
     "no-console": "warn"
   },
   "extends": [
