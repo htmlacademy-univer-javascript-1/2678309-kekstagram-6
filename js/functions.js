@@ -3,7 +3,7 @@ function parseTime(time) {
   return Number(hours) * 60 + Number(minutes);
 }
 
-function isMeeting(startWorkTime, endWorkTime, meetingStartTime, meetingDuration) {
+function isMeetingInWorkTime(startWorkTime, endWorkTime, meetingStartTime, meetingDuration) {
   const workStart = parseTime(startWorkTime);
   const workEnd = parseTime(endWorkTime);
   const meetingStart = parseTime(meetingStartTime);
