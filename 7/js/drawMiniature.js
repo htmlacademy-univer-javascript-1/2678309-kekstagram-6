@@ -12,7 +12,7 @@ export function drawMiniature(photos) {
 
     pictureImage.src = photo.url;
     pictureImage.alt = photo.description;
-    pictureComments.textContent = photo.comments;
+    pictureComments.textContent = photo.comments.length;
     pictureLikes.textContent = photo.likes;
     fragment.append(el);
   });
