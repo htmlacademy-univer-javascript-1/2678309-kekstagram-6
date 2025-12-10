@@ -54,6 +54,7 @@ function onCancelButtonClick() {
 
 function onDocumentKeydown(evt) {
   if (evt.key === 'Escape' && !bigPicture.classList.contains('hidden')) {
+    evt.preventDefault();
     closeFullSize();
   }
 }
