@@ -17,13 +17,19 @@ function renderNextComments() {
   const next = currentComments.slice(shownComments, shownComments + COMMENTS_STEP);
 
   next.forEach((comment) => {
-    const el = document.createElement('li');
-    el.className = 'social__comment';
-    el.innerHTML = `
-      <img class="social__picture" src="${comment.avatar}" alt="${comment.name}" width="35" height="35">
+    const commentElement = document.createElement('li');
+    commentElement.className = 'social__comment';
+
+    commentElement.innerHTML = `
+      <img
+        class="social__picture"
+        src="${comment.avatar}"
+        alt="${comment.name}"
+        width="35" height="35">
       <p class="social__text">${comment.message}</p>
     `;
-    socialComments.appendChild(el);
+
+    socialComments.appendChild(commentElement);
   });
 
   shownComments += next.length;
