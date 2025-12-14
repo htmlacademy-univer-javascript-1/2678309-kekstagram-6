@@ -39,6 +39,11 @@ function renderNextComments() {
   shownComments += next.length;
   commentCountBlock.innerHTML = `${shownComments} из <span class="comments-count">${currentComments.length}</span> комментариев`;
 
+  if (currentComments.length === 0) {
+    commentsLoader.classList.add('hidden');
+    commentCountBlock.classList.add('hidden');
+  }
+
   if (shownComments >= currentComments.length) {
     commentsLoader.classList.add('hidden');
   }
