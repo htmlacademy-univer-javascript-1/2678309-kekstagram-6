@@ -13,14 +13,11 @@ const cancelButton = document.querySelector('#picture-cancel');
 let currentComments = [];
 let shownComments = 0;
 
-function renderNextComments() {
-  const next = currentComments.slice(shownComments, shownComments + COMMENTS_STEP);
+function renderComment(comment) {
+  const commentElement = document.createElement('li');
+  commentElement.className = 'social__comment';
 
-  next.forEach((comment) => {
-    const commentElement = document.createElement('li');
-    commentElement.className = 'social__comment';
-
-    commentElement.innerHTML = `
+  commentElement.innerHTML = `
       <img
         class="social__picture"
         src="${comment.avatar}"
@@ -29,11 +26,23 @@ function renderNextComments() {
       <p class="social__text">${comment.message}</p>
     `;
 
-    socialComments.appendChild(commentElement);
+  socialComments.appendChild(commentElement);
+}
+
+function renderNextComments() {
+  const next = currentComments.slice(shownComments, shownComments + COMMENTS_STEP);
+
+  next.forEach((comment) => {
+    renderComment(comment);
   });
 
   shownComments += next.length;
-  commentCountBlock.textContent = `${shownComments} из ${currentComments.length} комментариев`;
+  commentCountBlock.innerHTML = `${shownComments} из <span class="comments-count">${currentComments.length}</span> комментариев`;
+
+  if (currentComments.length === 0) {
+    commentsLoader.classList.add('hidden');
+    commentCountBlock.classList.add('hidden');
+  }
 
   if (shownComments >= currentComments.length) {
     commentsLoader.classList.add('hidden');
