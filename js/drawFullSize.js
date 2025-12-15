@@ -1,4 +1,5 @@
 import { COMMENTS_STEP } from './constants.js';
+import { openModal, closeModal } from './functions.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
@@ -87,18 +88,13 @@ function openFullSize(photo) {
   commentsLoader.classList.remove('hidden');
 
   renderNextComments();
-
-  bigPicture.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-
+  openModal(bigPicture, onDocumentKeydown);
   addListeners();
 }
 
 function closeFullSize() {
-  bigPicture.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-
   removeListeners();
+  closeModal(bigPicture, onDocumentKeydown);
 }
 
 export { openFullSize };

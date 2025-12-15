@@ -1,20 +1,21 @@
 // Константы для генерации данных
 
-const MIN_LIKES = 15;
-const MAX_LIKES = 200;
+export const MIN_LIKES = 15;
+export const MAX_LIKES = 200;
 
-const MIN_COMMENTS = 0;
-const MAX_COMMENTS = 30;
+export const MIN_COMMENTS = 0;
+export const MAX_COMMENTS = 30;
 
-const MIN_AVATAR = 1;
-const MAX_AVATAR = 6;
+export const MIN_AVATAR = 1;
+export const MAX_AVATAR = 6;
 
-const MIN_MESSAGE_COUNT = 1;
-const MAX_MESSAGE_COUNT = 2;
+export const MIN_MESSAGE_COUNT = 1;
+export const MAX_MESSAGE_COUNT = 2;
 
-const PHOTOS_COUNT = 25;
+export const PHOTOS_COUNT = 25;
 
-const COMMENTS_STEP = 5;
+export const COMMENTS_STEP = 5;
 
-export { MIN_LIKES, MAX_LIKES, MIN_COMMENTS, MAX_COMMENTS, MIN_AVATAR, MAX_AVATAR, MIN_MESSAGE_COUNT, MAX_MESSAGE_COUNT, PHOTOS_COUNT, COMMENTS_STEP };
-
+export const MAX_HASHTAGS = 5;
+export const HASHTAG_REGEXP = /^#[a-zа-яё0-9]{1,19}$/i;
+export const MAX_COMMENT_LENGTH = 140;

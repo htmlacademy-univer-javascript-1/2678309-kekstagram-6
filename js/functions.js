@@ -1,13 +1,19 @@
-function parseTime(time) {
-  const [hours, minutes] = time.split(':');
-  return Number(hours) * 60 + Number(minutes);
+function openModal(modalElement, onEsc) {
+  modalElement.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  document.addEventListener('keydown', onEsc);
 }
 
-function isMeetingInWorkTime(startWorkTime, endWorkTime, meetingStartTime, meetingDuration) {
-  const workStart = parseTime(startWorkTime);
-  const workEnd = parseTime(endWorkTime);
-  const meetingStart = parseTime(meetingStartTime);
-  const meetingEnd = meetingStart + meetingDuration;
-
-  return meetingStart >= workStart && meetingEnd <= workEnd;
+function closeModal(modalElement, onEsc) {
+  modalElement.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onEsc);
 }
+
+function stopEscPropagation(evt) {
+  if (evt.key === 'Escape') {
+    evt.stopPropagation();
+  }
+}
+
+export { openModal, closeModal, stopEscPropagation };
