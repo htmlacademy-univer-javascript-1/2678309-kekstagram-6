@@ -15,36 +15,39 @@ const pristine = new Pristine(form, {
   errorTextTag: 'div'
 });
 
-function validateHashtags(value) {
-  if (!value.trim()) {
-    return true;
-  }
+function getHashtags(value) {
+  return value
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
+}
 
-  const hashtags = value.trim().toLowerCase().split(/\s+/);
+function validateHashtagsCount(value) {
+  return getHashtags(value).length <= MAX_HASHTAGS;
+}
 
-  if (hashtags.length > MAX_HASHTAGS) {
-    return false;
-  }
+function validateHashtagsUnique(value) {
+  const hashtags = getHashtags(value);
+  return new Set(hashtags).size === hashtags.length;
+}
 
-  const unique = new Set(hashtags);
-  if (unique.size !== hashtags.length) {
-    return false;
-  }
-
-  return hashtags.every((tag) => HASHTAG_REGEXP.test(tag));
+function validateHashtagsFormat(value) {
+  return getHashtags(value).every((tag) => HASHTAG_REGEXP.test(tag));
 }
 
 function validateComment(value) {
   return value.length <= MAX_COMMENT_LENGTH;
 }
 
-pristine.addValidator(hashtagInput, validateHashtags, 'Некорректные хэш-теги');
+pristine.addValidator(hashtagInput, validateHashtagsCount, `Нельзя указывать больше ${MAX_HASHTAGS} хэш-тегов`);
+pristine.addValidator(hashtagInput, validateHashtagsUnique, 'Хэш-теги не должны повторяться');
+pristine.addValidator(hashtagInput, validateHashtagsFormat, 'Хэш-тег должен начинаться с # и содержать только буквы и цифры');
 pristine.addValidator(commentInput, validateComment, `Комментарий не должен превышать ${MAX_COMMENT_LENGTH} символов`);
 
 function handleFormSubmit(evt) {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    closeForm();
+  if (!pristine.validate()) {
+    evt.preventDefault();
   }
 }
 
