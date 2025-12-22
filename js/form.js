@@ -76,10 +76,7 @@ function handleFormSubmit(evt) {
       showSuccessMessage();
     })
     .catch(() => {
-      closeModal(overlay, handleDocumentKeydown);
-      showErrorMessage(() => {
-        openModal(overlay, handleDocumentKeydown);
-      });
+      showErrorMessage();
     })
     .finally(() => {
       unblockSubmit();

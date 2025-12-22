@@ -1,43 +1,48 @@
-function showMessage(templateId, onClose) {
+import { showOverlay } from './utils.js';
+
+function showTemplateMessage(templateId) {
   const template = document.querySelector(templateId).content.cloneNode(true);
-  const message = template.querySelector('section');
+  const section = template.querySelector('section');
 
-  document.body.append(message);
-
-  function closeMessage() {
-    message.remove();
-    document.removeEventListener('keydown', onEscKeydown);
-    document.removeEventListener('click', onOutsideClick);
-
-    if (onClose) {
-      onClose();
-    }
-  }
-
-  function onEscKeydown(evt) {
-    if (evt.key === 'Escape') {
-      evt.preventDefault();
-      closeMessage();
-    }
-  }
-
-  function onOutsideClick(evt) {
-    if (!evt.target.closest(`.${message.className}__inner`)) {
-      closeMessage();
-    }
-  }
-
-  message.querySelector('button').addEventListener('click', closeMessage);
-  document.addEventListener('keydown', onEscKeydown);
-  document.addEventListener('click', onOutsideClick);
+  showOverlay({ content: section });
 }
 
 function showSuccessMessage() {
-  showMessage('#success');
+  showTemplateMessage('#success');
 }
 
-function showErrorMessage(onClose) {
-  showMessage('#error', onClose);
+function showErrorMessage() {
+  showTemplateMessage('#error');
 }
 
-export { showSuccessMessage, showErrorMessage };
+function showLoadDataErrorMessage(message) {
+  const box = document.createElement('div');
+
+  box.style.backgroundColor = '#fff';
+  box.style.padding = '24px 30px';
+  box.style.borderRadius = '8px';
+  box.style.maxWidth = '400px';
+  box.style.textAlign = 'center';
+  box.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+
+  box.innerHTML = `
+    <p style="margin: 0 0 20px; color: #555;">
+      ${message}
+    </p>
+    <button style="
+      padding: 10px 18px;
+      border: none;
+      border-radius: 4px;
+      background-color: #ff4d4d;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+    ">
+      Обновить страницу
+    </button>
+  `;
+
+  showOverlay({ content: box, onButtonClick: () => location.reload() });
+}
+
+export { showSuccessMessage, showErrorMessage, showLoadDataErrorMessage };
