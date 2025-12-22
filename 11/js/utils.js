@@ -41,3 +41,44 @@ export function getRandomInteger(min, max) {
 export function getRandomArrayElement(array) {
   return array[getRandomInteger(0, array.length - 1)];
 }
+
+export function showOverlay({ content, onButtonClick }) {
+  const overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.inset = '0';
+  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = '1000';
+
+  document.body.append(overlay);
+  overlay.append(content);
+
+  function close() {
+    overlay.remove();
+    document.removeEventListener('keydown', onEsc);
+  }
+
+  function onEsc(evt) {
+    if (evt.key === 'Escape') {
+      close();
+    }
+  }
+
+  overlay.addEventListener('click', (evt) => {
+    if (evt.target === overlay) {
+      close();
+    }
+  });
+
+  const button = content.querySelector('button');
+  if (button) {
+    button.addEventListener('click', () => {
+      onButtonClick();
+      close();
+    });
+  }
+
+  document.addEventListener('keydown', onEsc);
+}
