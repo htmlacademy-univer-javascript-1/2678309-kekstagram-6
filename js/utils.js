@@ -66,8 +66,10 @@ export function showOverlay({ content, onButtonClick }) {
     }
   }
 
+  document.addEventListener('keydown', onEsc);
+
   overlay.addEventListener('click', (evt) => {
-    if (evt.target === overlay) {
+    if (!evt.target.closest('.success__inner') && !evt.target.closest('.error__inner')) {
       close();
     }
   });
@@ -75,10 +77,10 @@ export function showOverlay({ content, onButtonClick }) {
   const button = content.querySelector('button');
   if (button) {
     button.addEventListener('click', () => {
-      onButtonClick();
+      if (onButtonClick) {
+        onButtonClick();
+      }
       close();
     });
   }
-
-  document.addEventListener('keydown', onEsc);
 }
