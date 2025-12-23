@@ -1,6 +1,6 @@
 import { MAX_HASHTAGS, HASHTAG_REGEXP, MAX_COMMENT_LENGTH } from './constants.js';
 import { openModal, closeModal, stopEscPropagation } from './utils.js';
-import { resetEffects, resetScale } from './utils.js';
+import { resetEffects, resetScale, activeOverlay } from './utils.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
 import { sendPhoto } from './api.js';
 
@@ -94,6 +94,9 @@ function handleCancelClick() {
 function handleDocumentKeydown(evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
+    if (activeOverlay) {
+      return;
+    }
     closeForm();
   }
 }

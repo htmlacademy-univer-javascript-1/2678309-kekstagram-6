@@ -1,3 +1,5 @@
+export let activeOverlay = null;
+
 export function openModal(modalElement, onEsc) {
   modalElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
@@ -55,13 +57,17 @@ export function showOverlay({ content, onButtonClick }) {
   document.body.append(overlay);
   overlay.append(content);
 
+  activeOverlay = overlay;
+
   function close() {
     overlay.remove();
+    activeOverlay = null;
     document.removeEventListener('keydown', onEsc);
   }
 
   function onEsc(evt) {
     if (evt.key === 'Escape') {
+      evt.preventDefault();
       close();
     }
   }
