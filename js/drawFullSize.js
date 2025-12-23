@@ -1,5 +1,5 @@
 import { COMMENTS_STEP } from './constants.js';
-import { openModal, closeModal } from './functions.js';
+import { openModal, closeModal } from './utils.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');

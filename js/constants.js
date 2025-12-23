@@ -1,5 +1,3 @@
-// Константы для генерации данных
-
 export const MIN_LIKES = 15;
 export const MAX_LIKES = 200;
 
@@ -19,3 +17,9 @@ export const COMMENTS_STEP = 5;
 export const MAX_HASHTAGS = 5;
 export const HASHTAG_REGEXP = /^#[a-zа-яё0-9]{1,19}$/i;
 export const MAX_COMMENT_LENGTH = 140;
+
+export const BASE_URL = 'https://29.javascript.htmlacademy.pro/kekstagram';
+export const ROUTES = {
+  GET_PHOTOS: '/data',
+  SEND_PHOTO: '/'
+};

@@ -1,5 +1,8 @@
 import { MAX_HASHTAGS, HASHTAG_REGEXP, MAX_COMMENT_LENGTH } from './constants.js';
-import { openModal, closeModal, stopEscPropagation } from './functions.js';
+import { openModal, closeModal, stopEscPropagation } from './utils.js';
+import { resetEffects, resetScale, activeOverlay } from './utils.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
+import { sendPhoto } from './api.js';
 
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
@@ -7,6 +10,7 @@ const fileInput = document.querySelector('.img-upload__input');
 const cancelButton = document.querySelector('.img-upload__cancel');
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
+const submitButton = form.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -45,10 +49,38 @@ pristine.addValidator(hashtagInput, validateHashtagsUnique, 'Хэш-теги н�
 pristine.addValidator(hashtagInput, validateHashtagsFormat, 'Хэш-тег должен начинаться с # и содержать только буквы и цифры');
 pristine.addValidator(commentInput, validateComment, `Комментарий не должен превышать ${MAX_COMMENT_LENGTH} символов`);
 
+function blockSubmit() {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуем';
+}
+
+function unblockSubmit() {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+}
+
 function handleFormSubmit(evt) {
+  evt.preventDefault();
+
   if (!pristine.validate()) {
-    evt.preventDefault();
+    return;
   }
+
+  blockSubmit();
+
+  const formData = new FormData(form);
+
+  sendPhoto(formData)
+    .then(() => {
+      closeForm();
+      showSuccessMessage();
+    })
+    .catch(() => {
+      showErrorMessage();
+    })
+    .finally(() => {
+      unblockSubmit();
+    });
 }
 
 function handleFileChange() {
@@ -62,6 +94,9 @@ function handleCancelClick() {
 function handleDocumentKeydown(evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
+    if (activeOverlay) {
+      return;
+    }
     closeForm();
   }
 }
@@ -74,6 +109,8 @@ function closeForm() {
   form.reset();
   pristine.reset();
   fileInput.value = '';
+  resetEffects();
+  resetScale();
   closeModal(overlay, handleDocumentKeydown);
 }
 

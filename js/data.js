@@ -1,6 +1,6 @@
 // Модуль для создания данных
 
-import { getRandomInteger, getRandomArrayElement } from './util.js';
+import { getRandomInteger, getRandomArrayElement } from './utils.js';
 import { MIN_LIKES, MAX_LIKES, MIN_COMMENTS, MAX_COMMENTS, MIN_AVATAR, MAX_AVATAR, MIN_MESSAGE_COUNT, MAX_MESSAGE_COUNT, PHOTOS_COUNT } from './constants.js';
 
 const COMMENT_MESSAGES = [
