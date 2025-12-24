@@ -1,7 +1,7 @@
 import { MAX_HASHTAGS, HASHTAG_REGEXP, MAX_COMMENT_LENGTH, FILE_TYPES, DEFAULT_IMAGE_NAME } from './constants.js';
 import { openModal, closeModal, stopEscPropagation } from './utils.js';
-import { resetEffects, resetScale, activeOverlay } from './utils.js';
-import { showSuccessMessage, showErrorMessage } from './message.js';
+import { resetEffects, resetScale, activeOverlay, isFileTypeAllowed } from './utils.js';
+import { showSuccessMessage, showErrorMessage, showFileErrorMessage } from './message.js';
 import { sendPhoto } from './api.js';
 
 const form = document.querySelector('.img-upload__form');
@@ -13,6 +13,9 @@ const commentInput = document.querySelector('.text__description');
 const submitButton = form.querySelector('.img-upload__submit');
 const previewImage = overlay.querySelector('.img-upload__preview img');
 const effectsPreviews = overlay.querySelectorAll('.effects__preview');
+
+let currentImageUrl = null;
+fileInput.accept = FILE_TYPES.map((el) => `.${el}`).join(',');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -87,15 +90,13 @@ function handleFormSubmit(evt) {
 
 function handleFileChange() {
   const file = fileInput.files[0];
-  const fileName = file.name.toLowerCase();
-
-  const fileTypeCheck = FILE_TYPES.some((el) => fileName.endsWith(el));
-  if (!fileTypeCheck) {
-    showErrorMessage();
+  if (!isFileTypeAllowed(file)) {
+    showFileErrorMessage(fileInput);
     fileInput.value = '';
   }
 
   const imageUrl = URL.createObjectURL(file);
+  currentImageUrl = imageUrl;
   previewImage.src = imageUrl;
 
   effectsPreviews.forEach((preview) => { preview.style.backgroundImage =  `url(${imageUrl})`; });
@@ -128,6 +129,10 @@ function closeForm() {
   effectsPreviews.forEach((preview) => { preview.style.backgroundImage =  ''; });
   resetEffects();
   resetScale();
+  if (currentImageUrl) {
+    URL.revokeObjectURL(currentImageUrl);
+    currentImageUrl = null;
+  }
   closeModal(overlay, handleDocumentKeydown);
 }
 

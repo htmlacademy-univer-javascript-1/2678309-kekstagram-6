@@ -45,4 +45,15 @@ function showLoadDataErrorMessage(message) {
   showOverlay({ content: box, onButtonClick: () => location.reload() });
 }
 
-export { showSuccessMessage, showErrorMessage, showLoadDataErrorMessage };
+function showFileErrorMessage(fileInput) {
+  const template = document.querySelector('#error').content.cloneNode(true);
+  const section = template.querySelector('section');
+  const button = section.querySelector('.error__button');
+
+  button.addEventListener('click', () => {
+    fileInput.click();
+  });
+  showOverlay({ content: section });
+}
+
+export { showSuccessMessage, showErrorMessage, showLoadDataErrorMessage, showFileErrorMessage };
