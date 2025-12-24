@@ -15,9 +15,9 @@ function setActiveButton(button) {
   button.classList.add('img-filters__button--active');
 }
 
-const filterDefault = (photos) => photos.slice();
-const filterRandom = (photos) => photos.slice().sort(() => Math.random() - 0.5).slice(0, RANDOM_COUNT);
-const filterDiscussed = (photos) => photos.slice().sort((a, b) => b.comments.length - a.comments.length);
+const filterDefault = (photos) => [...photos];
+const filterRandom = (photos) =>[...photos].slice().sort(() => Math.random() - 0.5).slice(0, RANDOM_COUNT);
+const filterDiscussed = (photos) => [...photos].slice().sort((a, b) => b.comments.length - a.comments.length);
 
 export function initFilters(photos) {
   filtersBlock.classList.remove('img-filters--inactive');
