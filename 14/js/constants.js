@@ -25,6 +25,7 @@ export const ROUTES = {
 };
 
 export const RANDOM_COUNT = 10;
+export const DEBOUNCE_TIME = 500;
 
 export const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 export const DEFAULT_IMAGE_NAME = 'img/upload-default-image.jpg';
