@@ -15,7 +15,7 @@ const previewImage = overlay.querySelector('.img-upload__preview img');
 const effectsPreviews = overlay.querySelectorAll('.effects__preview');
 
 let currentImageUrl = null;
-fileInput.accept = ALLOWED_TYPES.map((el) => `.${el}`).join(',');
+fileInput.accept = ALLOWED_TYPES.join(',');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
