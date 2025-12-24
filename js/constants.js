@@ -25,3 +25,4 @@ export const ROUTES = {
 };
 
 export const RANDOM_COUNT = 10;
+export const DEBOUNCE_TIME = 500;

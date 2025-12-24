@@ -1,6 +1,6 @@
 import { debounce } from './utils.js';
 import { drawMiniature } from './drawMiniature.js';
-import { RANDOM_COUNT } from './constants.js';
+import { RANDOM_COUNT, DEBOUNCE_TIME } from './constants.js';
 
 const filtersBlock = document.querySelector('.img-filters');
 const defaultBtn = document.querySelector('#filter-default');
@@ -22,7 +22,7 @@ const filterDiscussed = (photos) => photos.slice().sort((a, b) => b.comments.len
 export function initFilters(photos) {
   filtersBlock.classList.remove('img-filters--inactive');
 
-  const renderDebounced = debounce(drawMiniature, 500);
+  const renderDebounced = debounce(drawMiniature, DEBOUNCE_TIME);
 
   defaultBtn.addEventListener('click', () => {
     setActiveButton(defaultBtn);
