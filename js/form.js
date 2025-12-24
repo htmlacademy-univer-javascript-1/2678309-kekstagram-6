@@ -1,7 +1,7 @@
-import { MAX_HASHTAGS, HASHTAG_REGEXP, MAX_COMMENT_LENGTH } from './constants.js';
+import { MAX_HASHTAGS, HASHTAG_REGEXP, MAX_COMMENT_LENGTH, DEFAULT_IMAGE_NAME, ALLOWED_TYPES } from './constants.js';
 import { openModal, closeModal, stopEscPropagation } from './utils.js';
-import { resetEffects, resetScale, activeOverlay } from './utils.js';
-import { showSuccessMessage, showErrorMessage } from './message.js';
+import { resetEffects, resetScale, activeOverlay, isFileTypeAllowed } from './utils.js';
+import { showSuccessMessage, showErrorMessage, showFileErrorMessage } from './message.js';
 import { sendPhoto } from './api.js';
 
 const form = document.querySelector('.img-upload__form');
@@ -11,6 +11,11 @@ const cancelButton = document.querySelector('.img-upload__cancel');
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
 const submitButton = form.querySelector('.img-upload__submit');
+const previewImage = overlay.querySelector('.img-upload__preview img');
+const effectsPreviews = overlay.querySelectorAll('.effects__preview');
+
+let currentImageUrl = null;
+fileInput.accept = ALLOWED_TYPES.join(',');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -84,6 +89,16 @@ function handleFormSubmit(evt) {
 }
 
 function handleFileChange() {
+  const file = fileInput.files[0];
+  if (!isFileTypeAllowed(file)) {
+    showFileErrorMessage(fileInput);
+    fileInput.value = '';
+  }
+
+  currentImageUrl = URL.createObjectURL(file);
+  previewImage.src = URL.createObjectURL(file);
+
+  effectsPreviews.forEach((preview) => { preview.style.backgroundImage =  `url(${currentImageUrl})`; });
   openForm();
 }
 
@@ -109,8 +124,14 @@ function closeForm() {
   form.reset();
   pristine.reset();
   fileInput.value = '';
+  previewImage.src = DEFAULT_IMAGE_NAME;
+  effectsPreviews.forEach((preview) => { preview.style.backgroundImage =  ''; });
   resetEffects();
   resetScale();
+  if (currentImageUrl) {
+    URL.revokeObjectURL(currentImageUrl);
+    currentImageUrl = null;
+  }
   closeModal(overlay, handleDocumentKeydown);
 }
 

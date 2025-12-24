@@ -1,3 +1,5 @@
+import { ALLOWED_TYPES } from './constants.js';
+
 export let activeOverlay = null;
 
 export function openModal(modalElement, onEsc) {
@@ -98,4 +100,8 @@ export function debounce (callback, timeoutDelay) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
+}
+
+export function isFileTypeAllowed(file) {
+  return ALLOWED_TYPES.includes(file.type);
 }
