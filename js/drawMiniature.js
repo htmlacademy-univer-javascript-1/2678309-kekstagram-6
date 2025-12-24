@@ -3,6 +3,7 @@ import { openFullSize } from './drawFullSize.js';
 export function drawMiniature(photos) {
   const picturesContainer = document.querySelector('.pictures');
   const template = document.querySelector('#picture').content;
+  picturesContainer.querySelectorAll('.picture').forEach((el) => el.remove());
 
   const fragment = document.createDocumentFragment();
 

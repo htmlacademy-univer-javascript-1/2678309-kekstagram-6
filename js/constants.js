@@ -23,3 +23,6 @@ export const ROUTES = {
   GET_PHOTOS: '/data',
   SEND_PHOTO: '/'
 };
+
+export const RANDOM_COUNT = 10;
+export const DEBOUNCE_TIME = 500;
