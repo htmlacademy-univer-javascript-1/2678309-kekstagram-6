@@ -95,11 +95,10 @@ function handleFileChange() {
     fileInput.value = '';
   }
 
-  const imageUrl = URL.createObjectURL(file);
-  currentImageUrl = imageUrl;
-  previewImage.src = imageUrl;
+  currentImageUrl = URL.createObjectURL(file);
+  previewImage.src = URL.createObjectURL(file);
 
-  effectsPreviews.forEach((preview) => { preview.style.backgroundImage =  `url(${imageUrl})`; });
+  effectsPreviews.forEach((preview) => { preview.style.backgroundImage =  `url(${currentImageUrl})`; });
   openForm();
 }
 
