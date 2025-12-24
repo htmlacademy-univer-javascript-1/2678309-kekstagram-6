@@ -17,6 +17,7 @@ function showErrorMessage() {
 
 function showLoadDataErrorMessage(message) {
   const box = document.createElement('div');
+  box.className = 'data-error';
 
   box.style.backgroundColor = '#fff';
   box.style.padding = '24px 30px';

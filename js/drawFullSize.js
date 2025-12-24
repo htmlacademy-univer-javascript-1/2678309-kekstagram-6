@@ -3,13 +3,13 @@ import { openModal, closeModal } from './utils.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
-const likesCount = document.querySelector('.likes-count');
-const commentsCount = document.querySelector('.comments-count');
-const socialCaption = document.querySelector('.social__caption');
-const socialComments = document.querySelector('.social__comments');
-const commentCountBlock = document.querySelector('.social__comment-count');
-const commentsLoader = document.querySelector('.comments-loader');
-const cancelButton = document.querySelector('#picture-cancel');
+const likesCount = bigPicture.querySelector('.likes-count');
+const commentsCount = bigPicture.querySelector('.comments-count');
+const socialCaption = bigPicture.querySelector('.social__caption');
+const socialComments = bigPicture.querySelector('.social__comments');
+const commentCountBlock = bigPicture.querySelector('.social__comment-count');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
+const cancelButton = bigPicture.querySelector('#picture-cancel');
 
 let currentComments = [];
 let shownComments = 0;
@@ -38,7 +38,7 @@ function renderNextComments() {
   });
 
   shownComments += next.length;
-  commentCountBlock.innerHTML = `${shownComments} из <span class="comments-count">${currentComments.length}</span> комментариев`;
+  commentCountBlock.innerHTML = `<span class="social__comment-shown-count">${shownComments}</span> из <span class="comments-count social__comment-total-count">${currentComments.length}</span> комментариев`;
 
   if (currentComments.length === 0) {
     commentsLoader.classList.add('hidden');

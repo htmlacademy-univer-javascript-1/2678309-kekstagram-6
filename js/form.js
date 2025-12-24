@@ -46,7 +46,10 @@ function validateHashtagsFormat(value) {
 }
 
 function validateComment(value) {
-  return value.length <= MAX_COMMENT_LENGTH;
+  if (!value) {
+    return true;
+  }
+  return String(value).length <= MAX_COMMENT_LENGTH;
 }
 
 pristine.addValidator(hashtagInput, validateHashtagsCount, `Нельзя указывать больше ${MAX_HASHTAGS} хэш-тегов`);
