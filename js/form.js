@@ -1,4 +1,4 @@
-import { MAX_HASHTAGS, HASHTAG_REGEXP, MAX_COMMENT_LENGTH } from './constants.js';
+import { MAX_HASHTAGS, HASHTAG_REGEXP, MAX_COMMENT_LENGTH, FILE_TYPES, DEFAULT_IMAGE_NAME } from './constants.js';
 import { openModal, closeModal, stopEscPropagation } from './utils.js';
 import { resetEffects, resetScale, activeOverlay } from './utils.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
@@ -11,6 +11,8 @@ const cancelButton = document.querySelector('.img-upload__cancel');
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
 const submitButton = form.querySelector('.img-upload__submit');
+const previewImage = overlay.querySelector('.img-upload__preview img');
+const effectsPreviews = overlay.querySelectorAll('.effects__preview');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -84,6 +86,19 @@ function handleFormSubmit(evt) {
 }
 
 function handleFileChange() {
+  const file = fileInput.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const fileTypeCheck = FILE_TYPES.some((el) => fileName.endsWith(el));
+  if (!fileTypeCheck) {
+    showErrorMessage();
+    fileInput.value = '';
+  }
+
+  const imageUrl = URL.createObjectURL(file);
+  previewImage.src = imageUrl;
+
+  effectsPreviews.forEach((preview) => { preview.style.backgroundImage =  `url(${imageUrl})`; });
   openForm();
 }
 
@@ -109,6 +124,8 @@ function closeForm() {
   form.reset();
   pristine.reset();
   fileInput.value = '';
+  previewImage.src = DEFAULT_IMAGE_NAME;
+  effectsPreviews.forEach((preview) => { preview.style.backgroundImage =  ''; });
   resetEffects();
   resetScale();
   closeModal(overlay, handleDocumentKeydown);
