@@ -1,4 +1,4 @@
-import { MAX_HASHTAGS, HASHTAG_REGEXP, MAX_COMMENT_LENGTH, FILE_TYPES, DEFAULT_IMAGE_NAME } from './constants.js';
+import { MAX_HASHTAGS, HASHTAG_REGEXP, MAX_COMMENT_LENGTH, DEFAULT_IMAGE_NAME, ALLOWED_TYPES } from './constants.js';
 import { openModal, closeModal, stopEscPropagation } from './utils.js';
 import { resetEffects, resetScale, activeOverlay, isFileTypeAllowed } from './utils.js';
 import { showSuccessMessage, showErrorMessage, showFileErrorMessage } from './message.js';
@@ -15,7 +15,7 @@ const previewImage = overlay.querySelector('.img-upload__preview img');
 const effectsPreviews = overlay.querySelectorAll('.effects__preview');
 
 let currentImageUrl = null;
-fileInput.accept = FILE_TYPES.map((el) => `.${el}`).join(',');
+fileInput.accept = ALLOWED_TYPES.map((el) => `.${el}`).join(',');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
